@@ -13,9 +13,6 @@
     <!-- <div class="sidebar_list_item ">
       <a href="vendor-customer.php" class="items-center"><i class="fa fa-user mr15"></i>Customer</a>
     </div> -->
-    <div class="sidebar_list_item ">
-      <a class="{{ Route::is('vendor.category.index') ? '-is-active' : '' }}" href="{{ route('vendor.category.index') }}" class="items-center"><i class="fa fa-filter mr15"></i>Categories</a>
-    </div>
     <!-- <div class="sidebar_list_item ">
       <a href="page-dashboard-message.html" class="items-center"><i class="fa fa-envelope mr15"></i>Message</a>
     </div> -->

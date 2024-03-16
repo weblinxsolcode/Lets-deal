@@ -66,16 +66,13 @@
 				        <div class="column">
 				          <div class="mt-5 sidebar mb-3 mb-xl-0">
 
-				            <h4 class="title mb15">Apple MacBook Pro 16" (2021) - Space Grey (Apple M1 Pro Chip / 1TB SSD / 16GB
-				              RAM)</h4>
+				            <h4 class="title mb15">{{ $product->title }}</h4>
 				            <div class="row justify-content-between">
 				              <div class="col-lg-12">
-				                <p>Tired of cleaning up after frying in the air fryer? Keep food scraps and other debris away from
-				                  the fryer and avoid having to clean the fryer after use. These disposable papers can withstand
-				                  heat up to 220 C.</p>
+				                <p>{{ $product->product_description }}</p>
 				              </div>
 							<div class="col-lg-2">
-								<div class="C-price mb25 mt20">NOK 1,419.92 <small><del class="mr10">NOK 3.399</del></small></div>
+								<div class="C-price mb25 mt20">NOK {{ $product->price }} <small><del class="mr10">NOK {{ $product->discount_price }}</del></small></div>
 							</div>
 			                 <div class="col-lg-4">
 			                    <div class="d-grid mb-3">
@@ -99,47 +96,24 @@
 
 				            <div class="row justify-content-between mb-4">
 								<div class="col-lg-12">
-									<ul class="detail-ul">
-									  <h5>Product information</h5>
-									  <li>Crank radio for emergency situations</li>
-									  <li>Solar charger</li>
-									  <li>Survival - camping</li>
-									</ul>
+									<strong><u><h5>Product information</h5></u></strong>
+									{!! $product->product_information !!}
 								</div>
 								<hr/>
 								<div class="col-lg-12">
-									<ul class="detail-ul">
-									  <h5>Terms of Use</h5>
-									  <li>General conditions according to LetsDeal's policy</li>
-									  <li>Shipping is added</li>
-									  <li>Delivery time approx. 2-6 working days</li>
-									  <li>If you have questions, contact support directly via email at info@case4you.se</li>
-									  <li style="list-style:none"> <a class="ms-2" href="mailto:someone@example.com">
-									      someone@example.com</a></li>
-									</ul>
+									<strong><u><h5>Product information</h5></u></strong>
+								  	{!! $product->terms_of_use !!}
 								</div>
 								<hr/>
 				              	<div class="col-lg-12">
-					                <ul class="detail-ul">
-					                  <h5>More about the product</h5>
-					                  <li>Note right now the delivery time is 12-13 working days!</li>
-					                  <li>Crank radio with solar cells, flashlight and Powerbank function</li>
-					                  <li>Robust crank radio that can be charged via the built-in crank, the solar panel or via the
-					                    micro USB socket. Can charge mobile phone.</li>
-					                  <li>n addition to being able to receive FM and AM radio broadcasts to ensure that you can receive
-					                    important messages from our authorities or other social actors, it has a flashlight (LED) on one
-					                    short side that ensures that you always have access to be able to see also in darkness.</li>
-					                  <li>Vevradio can also charge the mobile phone in an emergency. There is a standard USB socket on
-					                    the radio where you connect your normal charging cable to the mobile phone.</li>
-					                  <li>Should you find yourself in danger, you can send out a loud alarm signal with the dynamordia's
-					                    SOS button, hold the button and a siren will sound.</li>
-					                </ul>
+					                <strong><u><h5>Product information</h5></u></strong>
+								  	{!! $product->more_about_the_product !!}
 				              	</div>
-				              	<div class="col-lg-12">
+				              	<!-- <div class="col-lg-12">
 					                <a href="#" target="_blant" class="mx-2"> #Beauty</a>
 					                <a href="#" class="mx-2">#Treatment</a>
 					                <a href="#" class="mx-2">#Electronic</a>
-				              	</div>
+				              	</div> -->
 				              	<hr/>
 				              	<div class="col-lg-12">
 					                <ul>

@@ -18,11 +18,7 @@
 <div class="dashboard__content bgc-gmart-gray">
     <div class="row pb50">
       <div class="col-lg-12">
-        <div class="dashboard_title_area">
-          <h2>Vendors</h2>
-          <p class="para">Easily add, edit, or remove products from your inventory. Ensure accurate product
-            information and images to attract customers and drive sales.</p>
-        </div>
+        <h2>{{ @$title }}</h2>
       </div>
     </div>
     <div class="row">
@@ -68,13 +64,13 @@
                 @foreach ($vendors as $key => $vendor)
                 <tr>
                   <td>{{ $key + 1 }}</td>
-                  <th>
+                  <td>
                     <img width="100px" src="{{ asset('images/' . $vendor->company_logo) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Company Logo">
-                  </th>
-                  <th>{{ $vendor->contact_person }}</th>
-                  <th>{{ $vendor->email }}</th>
-                  <th>{{ $vendor->telephone }}</th>
-                  <th>{{ $vendor->website_url }}</th>
+                  </td>
+                  <td>{{ $vendor->contact_person }}</td>
+                  <td>{{ $vendor->email }}</td>
+                  <td>{{ $vendor->telephone }}</td>
+                  <td>{{ $vendor->website_url }}</td>
                   <td>
                     @if ($vendor->status == '1')
                     <span class="badge badge-success">Approved</span>

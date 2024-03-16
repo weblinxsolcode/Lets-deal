@@ -15,10 +15,9 @@ class VendorAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-    	if (session('vendor_id') != NULL) {
-        	return $next($request);
-        } else {
-            return redirect()->route('vendor.login')->with('error','Please Login');
-        }
+    	if (empty(session('vendor_id'))) {
+    		return redirect()->route('vendor.login')->with('error', 'Please login.');
+    	}
+        return $next($request);
     }
 }

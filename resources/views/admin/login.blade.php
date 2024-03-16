@@ -21,18 +21,17 @@
             <div class="log_reg_form mt70-992">
               <h2 class="title">Sign-In as Admin</h2>
               <div class="login_form">
-                <form action="#">
+                <form action="{{ route('admin.login-check') }}" method="POST">
+                  @csrf
                   <div class="mb-2 mr-sm-2">
                     <label class="form-label">Email Address</label>
-                    <input type="text" class="form-control" placeholder="Please Enter Your Email Address">
+                    <input type="text" class="form-control" name="email" placeholder="Please Enter Your Email Address" required>
                   </div>
                   <div class="form-group mb5">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control" placeholder="Please Enter Your Password">
+                    <input type="password" class="form-control" name="password" placeholder="Please Enter Your Password" required>
                   </div>
-                    <a class="btn-fpswd float-end" href="javascript:void(0)">Forget your password?</a>
-                  <!-- <button type="submit" class="btn btn-log btn-thm mt20">Login</button> -->
-                  <a href="{{ route('admin.dashboard') }}" class="btn btn-log btn-thm mt20">Login</a>
+                  <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
                 </form>
               </div>
             </div>
@@ -41,5 +40,6 @@
       </div>
     </section>
 </body>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@include('toastr')
 </html>

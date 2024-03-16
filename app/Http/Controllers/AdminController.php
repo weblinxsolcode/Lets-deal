@@ -9,17 +9,24 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use App\Models\Admin;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
+    // AUTHENTICATION
     public function login()
     {
+        if (session('admin_id')) {
+            return redirect()->back();
+        }
+
     	$title = 'Login';
 
     	return view('admin.login', compact('title'));
     }
 
-    public function loginCheck()
+    public function loginCheck(Request $request)
     {
         $request->validate([
             'email' => 'required',
@@ -29,13 +36,13 @@ class AdminController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        $vendor = Vendor::where('email', $email)->where('status', 1)->first();
+        $admin = Admin::where('email', $email)->first();
 
-        if ($vendor) {
-            if (Hash::check($password, $vendor->password)) {
-                Session::put('vendor_id', $vendor->id);
+        if ($admin) {
+            if (Hash::check($password, $admin->password)) {
+                Session::put('admin_id', $admin->id);
 
-                return redirect()->route('vendor.dashboard');
+                return redirect()->route('admin.dashboard');
             } else {
                 return redirect()->back()->with('error', 'Password does not match!');
             }
@@ -44,6 +51,14 @@ class AdminController extends Controller
         }
     }
 
+    public function logout()
+    {
+        session()->forget('admin_id');
+
+        return redirect()->route('vendor.login')->with('success', 'Logged out successfully.');
+    }
+
+    // DASHBOARD
     public function index()
     {
     	$title = 'Dashboard';
@@ -51,6 +66,7 @@ class AdminController extends Controller
     	return view('admin.index', compact('title'));
     }
 
+    // PRODUCTS
     public function productIndex()
     {
     	$title = 'Products';
@@ -79,6 +95,7 @@ class AdminController extends Controller
     	return view('admin.products.detail', compact('title'));
     }
 
+    // SETTINGS
     public function settingEdit()
     {
     	$title = 'Settings';
@@ -86,6 +103,7 @@ class AdminController extends Controller
     	return view('admin.settings-edit', compact('title'));
     }
 
+    // VENDORS
     public function vendorIndex()
     {
     	$title = 'Vendors';
@@ -125,5 +143,44 @@ class AdminController extends Controller
         Vendor::find($id)->update(['status' => 1]);
 
         return redirect()->back()->with('success', 'Vendor has been approved, and login credentials have been sent to their email.');
+    }
+
+    // CATEGORIES
+    public function categoryIndex()
+    {
+        $title = 'Categories';
+        $categories = Category::latest()->get();
+
+        return view('admin.categories.index', compact('title', 'categories'));
+    }
+
+    public function categoryStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|unique:categories,title',
+        ]);
+
+        Category::create(['title' => $request->title]);
+
+        return redirect()->back()->with('success', 'Category has been created successfully.');
+    }
+
+    public function categoryUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|unique:categories,title,' . $id,
+            'status' => 'required'
+        ]);
+
+        Category::find($id)->update(['title' => $request->title, 'status' => $request->status]);
+
+        return redirect()->back()->with('success', 'Category has been updated successfully.');
+    }
+
+    public function categoryDelete($id)
+    {
+        Category::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Category has been deleted successfully.');
     }
 }

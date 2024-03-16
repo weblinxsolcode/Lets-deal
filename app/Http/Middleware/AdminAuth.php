@@ -15,6 +15,9 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
+    	if (empty(session('admin_id'))) {
+    		return redirect()->route('admin.login')->with('error', 'Please login.');
+    	}
         return $next($request);
     }
 }
