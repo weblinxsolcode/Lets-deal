@@ -6,6 +6,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\VendorAuth;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\UserAuth;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -19,7 +20,16 @@ Route::group(['prefix' => '/', 'as' => 'website.'], function () {
 	Route::post('/become-partner/store', [WebsiteController::class, 'becomePartnerStore'])->name('become-partner.store');
 
 	Route::get('/products', [WebsiteController::class, 'productIndex'])->name('product.index');
-	Route::get('/product-details/{id?}', [WebsiteController::class, 'productDetail'])->name('product.detail');
+	Route::get('/product-details/{id}', [WebsiteController::class, 'productDetail'])->name('product.detail');
+});
+
+// User Dashboard
+Route::post('register', [WebsiteController::class, 'register'])->name('user.register');
+Route::post('login', [WebsiteController::class, 'login'])->name('user.login');
+Route::get('logout', [WebsiteController::class, 'logout'])->name('user.logout');
+
+Route::group(['prefix' => '/', 'as' => 'website.', 'middleware' => UserAuth::class], function () {
+	Route::get('user-dashboard', [WebsiteController::class, 'userDashboard'])->name('user-dashboard.index');
 });
 
 // VENDOR AUTH
@@ -37,11 +47,14 @@ Route::group(['prefix' => '/vendor', 'as' => 'vendor.', 'middleware' => VendorAu
 	Route::get('/products', [VendorController::class, 'productIndex'])->name('product.index');
 	Route::get('/product/create', [VendorController::class, 'productCreate'])->name('product.create');
 	Route::post('/product/store', [VendorController::class, 'productStore'])->name('product.store');
-	Route::get('/product/edit', [VendorController::class, 'productEdit'])->name('product.edit');
+	Route::get('/product/edit/{id}', [VendorController::class, 'productEdit'])->name('product.edit');
+	Route::post('/product/update/{id}', [VendorController::class, 'productUpdate'])->name('product.update');
+	Route::get('/product/delete/{id}', [VendorController::class, 'productDelete'])->name('product.delete');
 	Route::get('/product/details/{id}', [VendorController::class, 'productDetail'])->name('product.detail');
 
 	// SETTINGS
 	Route::get('/settings', [VendorController::class, 'settingEdit'])->name('setting.edit');
+	Route::post('/setting-update-profile/{id}', [VendorController::class, 'settingUpdateProfile'])->name('setting.update-profile');
 });
 
 // ADMIN AUTH

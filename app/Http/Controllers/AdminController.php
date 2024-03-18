@@ -55,7 +55,7 @@ class AdminController extends Controller
     {
         session()->forget('admin_id');
 
-        return redirect()->route('vendor.login')->with('success', 'Logged out successfully.');
+        return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
     }
 
     // DASHBOARD
@@ -64,35 +64,6 @@ class AdminController extends Controller
     	$title = 'Dashboard';
 
     	return view('admin.index', compact('title'));
-    }
-
-    // PRODUCTS
-    public function productIndex()
-    {
-    	$title = 'Products';
-
-    	return view('admin.products.index', compact('title'));
-    }
-
-    public function productCreate()
-    {
-    	$title = 'Product Create';
-
-    	return view('admin.products.create', compact('title'));
-    }
-
-    public function productEdit()
-    {
-    	$title = 'Product Edit';
-
-    	return view('admin.products.edit', compact('title'));
-    }
-
-    public function productDetail()
-    {
-    	$title = 'Product Detail';
-
-    	return view('admin.products.detail', compact('title'));
     }
 
     // SETTINGS

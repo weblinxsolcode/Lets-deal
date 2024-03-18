@@ -27,5 +27,10 @@ class Vendor extends Model
         'website_url',
         'password',
         'status',
+        'facebook_link',
+        'twitter_link',
+        'instagram_link',
+        'linkedin_link',
+        'profile_image',
     ];
 }

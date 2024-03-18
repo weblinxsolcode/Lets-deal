@@ -47,24 +47,18 @@
             </div>
           </div>
           <div class="row">
-            <div class=" col-lg-12 col-sm-6 col-lg-4 col-xl-3 p-0">
+
+            @if (count($products) > 0)
+            @foreach ($products as $key => $product)
+            <div class="col-lg-12 col-sm-6 col-lg-4 col-xl-3 p-0">
               <div class="shop_item bdr1 m--1">
                 <div class="thumb pb30">
-                  <img class="w100" src="{{ asset('assets/images/shop-items/shop-item1.png') }}" alt="Shop Item1">
-                  <div class="thumb_info">
-                    <ul class="mb0">
-                      <li><a href="javascript:void(0)"><span class="flaticon-heart"></span></a></li>
-                      <li><a href="javascript:void(0)"><span class="flaticon-show"></span></a></li>
-                      <li><a href="javascript:void(0)"><span class="flaticon-graph"></span></a></li>
-                    </ul>
-                  </div>
-
+                    <img class="w100" src="{{ asset('images/' . $product->main_image) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Product Main Image">
                 </div>
                 <div class="details">
-                  <div class="sub_title">SAMSUNG</div>
-                  <div class="title"><a href="{{ route('website.product.detail') }}">Acer Aspire 5 15.6" Laptop - Silver (Intel Core
-                      i7-1165G7/512GB SSD/12GB RAM/Windows 11)</a></div>
-                  <div class="review d-flex db-500">
+                  <!-- <div class="sub_title">SAMSUNG</div> -->
+                  <div class="title"><a href="{{ route('website.product.detail', $product->id) }}">{{ $product->title }}</a></div>
+                  <!-- <div class="review d-flex db-500">
                     <ul class="mb0 me-2">
                       <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                       <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
@@ -73,14 +67,17 @@
                       <li class="list-inline-item"><a href="#"><i class="fas fa-star"></i></a></li>
                     </ul>
                     <div class="review_count"><a href="#">3,014 reviews</a></div>
-                  </div>
+                  </div> -->
                   <div class="si_footer">
-                    <div class="price">NOK 32.50 <small><del>NOK 45</del></small></div>
+                    <div class="price">NOK {{ $product->discount_price }} <small><del>NOK {{ $product->price }}</del></small></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class=" col-lg-12 col-sm-6 col-lg-4 col-xl-3 p-0">
+            @endforeach
+            @endif
+
+            {{-- <div class=" col-lg-12 col-sm-6 col-lg-4 col-xl-3 p-0">
               <div class="shop_item bdr1 m--1">
                 <div class="thumb pb30">
                   <img class="w100" src="{{ asset('assets/images/shop-items/shop-item2.png') }}" alt="Shop Item2">
@@ -707,9 +704,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-12">
               <div class="mbp_pagination mt30 text-center">
                 <ul class="page_navigation">
@@ -733,7 +730,7 @@
                 <p class="mt20 pagination_page_count text-center">1 – 20 of 300+ properties found</p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

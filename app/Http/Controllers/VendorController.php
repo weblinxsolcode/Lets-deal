@@ -75,18 +75,13 @@ class VendorController extends Controller
     	$title = 'Products';
         $products = Product::where('vendor_id', session('vendor_id'))->with('category', 'images')->latest()->get();
 
-        // echo "<pre>";
-        // print_r($products->toArray());
-        // echo "</pre>";
-        // die();
-
     	return view('vendor.products.index', compact('title', 'products'));
     }
 
     public function productCreate()
     {
     	$title = 'Product Create';
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
 
     	return view('vendor.products.create', compact('title', 'categories'));
     }
@@ -142,6 +137,15 @@ class VendorController extends Controller
         return redirect()->route('vendor.product.index')->with('success', 'Product has been created successfully.');
     }
 
+    public function productEdit($id)
+    {
+        $title = 'Product Edit';
+        $product = Product::find($id);
+        $categories = Category::where('status', 1)->orWhere('id', $product->category_id)->get();
+
+        return view('vendor.products.edit', compact('title', 'categories', 'product'));
+    }
+
     public function productUpdate(Request $request, $id)
     {
         $request->validate([
@@ -155,9 +159,6 @@ class VendorController extends Controller
             'product_information' => 'required',
             'terms_of_use' => 'required',
             'more_about_the_product' => 'required',
-            'main_image' => 'required',
-            'additional_images' => 'required|array|max:3',
-            'additional_images.*' => 'image',
         ]);
 
         $data = $request->except([
@@ -220,26 +221,116 @@ class VendorController extends Controller
         return redirect()->route('vendor.product.index')->with('success', 'Product has been updated successfully.');
     }
 
-    public function productEdit()
-    {
-    	$title = 'Product Edit';
-
-    	return view('vendor.products.edit', compact('title'));
-    }
-
     public function productDetail($id)
     {
     	$title = 'Product Detail';
-        $product = Product::with('category', 'images')->find($id);
+        $product = Product::with('vendor', 'category', 'images')->find($id);
 
     	return view('vendor.products.detail', compact('title', 'product'));
+    }
+
+    public function productDelete($id)
+    {
+        $product = Product::find($id);
+
+        if ($product) {
+            // Unlink main image
+            $imagePath = public_path('images') . '/' . $product->main_image;
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Unlink additional images
+            $additional_images = ProductImage::where('product_id', $id)->get();
+
+            if (count($additional_images) > 0) {
+                foreach ($additional_images as $value) {
+                    // Unlink old images
+                    $imagePath = public_path('images') . '/' . $value->image;
+
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
+            }
+
+            // Delete product
+            $product->delete();
+        }
+
+        return redirect()->back()->with('success', 'Product has been deleted successfully.');
     }
 
     // SETTINGS
     public function settingEdit()
     {
     	$title = 'Settings';
+        $data = Vendor::find(session('vendor_id'));
 
-    	return view('vendor.settings-edit', compact('title'));
+    	return view('vendor.settings-edit', compact('title', 'data'));
+    }
+
+    public function settingUpdateProfile(Request $request, $id)
+    {
+        $vendor = Vendor::find($id);
+
+        if ($request->type == 'update_profile') {
+            $request->validate([
+                'name' => 'required'
+            ]);
+
+            $vendor->update([
+                'contact_person' => $request->name,
+            ]);
+
+            if ($request->password) {
+                $request->validate([
+                    'password' => 'min:8'
+                ]);
+
+                $vendor->update([
+                    'password' => Hash::make($request->password),
+                ]);
+            }
+
+            if ($request->profile_image) {
+                $request->validate([
+                    'profile_image' => 'image'
+                ]);
+
+                // Profile Image Uploading
+                $profile_image = Str::random(16).'.'.$request->profile_image->extension();
+                $request->profile_image->move(public_path('images'), $profile_image);
+                $data['profile_image'] = $profile_image;
+
+                $vendor->update([
+                    'profile_image' => $profile_image,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Profile has been updated successfully.');
+        } else {
+            $request->validate([
+                'facebook_link' => 'required_without_all:twitter_link,instagram_link,linkedin_link',
+                'twitter_link' => 'required_without_all:facebook_link,instagram_link,linkedin_link',
+                'instagram_link' => 'required_without_all:facebook_link,twitter_link,linkedin_link',
+                'linkedin_link' => 'required_without_all:facebook_link,twitter_link,instagram_link',
+            ], [
+                'facebook_link.required_without_all' => 'At least one social link is required.',
+                'twitter_link.required_without_all' => 'At least one social link is required.',
+                'instagram_link.required_without_all' => 'At least one social link is required.',
+                'linkedin_link.required_without_all' => 'At least one social link is required.',
+            ]);
+
+            $vendor->update([
+                'facebook_link' => $request->facebook_link,
+                'twitter_link' => $request->twitter_link,
+                'instagram_link' => $request->instagram_link,
+                'linkedin_link' => $request->linkedin_link,
+            ]);
+
+            return redirect()->back()->with('success', 'Social links has been updated successfully.');
+        }
     }
 }

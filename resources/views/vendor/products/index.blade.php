@@ -48,45 +48,63 @@
               </thead>
               <tbody>
                 @if (count($products) > 0)
-                @foreach ($products as $key => $product)
-                <tr>
-                  <td>{{ $key + 1 }}</td>
-                  <td>
-                    <img width="100px" src="{{ asset('images/' . $product->main_image) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Image">
-                  </td>
-                  <td>{{ $product->title }}</td>
-                  <td>{{ @$product->category->title ?? '-' }}</td>
-                  <td>{{ $product->quantity }}</td>
-                  <td>${{ $product->price }}</td>
-                  <td>${{ $product->discount_price }}</td>
-                  <td>
-                    @if ($product->status == '1')
-                    <span class="badge badge-success">Approved</span>
-                    @else
-                    <span class="badge badge-warning">Pending</span>
-                    @endif
-                  </td>
-                  <td class="editing_list align-middle">
-                    <ul>
-                      <!-- <li class="list-inline-item mb-1 c-btn-color ">
-                        <a href="{{ route('vendor.product.edit') }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                          title="Edit" data-bs-original-title="View" aria-label="View"><i class="fa-solid fa-pencil"
-                            style="color:white"></i></a>
-                      </li>
-                      <li class="list-inline-item mb-1 c-danger ">
-                        <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                          <i class="fa-solid fa-trash" style="color:white"></i>
-                        </button>
-                      </li>
- -->                      <li class="list-inline-item mb-1 c-btn-color ">
-                        <a href="{{ route('vendor.product.detail', $product->id) }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                          title="View" data-bs-original-title="View" aria-label="View"><i class="fa-solid fa-eye"
-                            style="color:white"></i></a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                @endforeach
+                  @foreach ($products as $key => $product)
+                    <tr>
+                      <td>{{ $key + 1 }}</td>
+                      <td>
+                        <img width="100px" src="{{ asset('images/' . $product->main_image) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Image">
+                      </td>
+                      <td>{{ $product->title }}</td>
+                      <td>{{ @$product->category->title ?? '-' }}</td>
+                      <td>{{ $product->quantity }}</td>
+                      <td>${{ $product->price }}</td>
+                      <td>${{ $product->discount_price }}</td>
+                      <td>
+                        @if ($product->status == '1')
+                        <span class="badge badge-success">Approved</span>
+                        @else
+                        <span class="badge badge-danger">In Active</span>
+                        @endif
+                      </td>
+                      <td class="editing_list align-middle">
+                        <ul>
+                          <li class="list-inline-item mb-1 c-btn-color ">
+                            <a href="{{ route('vendor.product.edit', $product->id) }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                              title="Edit" data-bs-original-title="View" aria-label="View"><i class="fa-solid fa-pencil"
+                                style="color:white"></i></a>
+                          </li>
+                          <li class="list-inline-item mb-1 c-danger ">
+                            <a href="{{ route('vendor.product.delete', $product->id) }}" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <i class="fa-solid fa-trash" style="color:white"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item mb-1 c-btn-color ">
+                            <a href="{{ route('vendor.product.detail', $product->id) }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                              title="View" data-bs-original-title="View" aria-label="View"><i class="fa-solid fa-eye"
+                                style="color:white"></i></a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <div class="modal fade c-fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete this Product?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="{{ route('vendor.product.delete', $product->id) }}" class="btn btn-danger">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
+                @else
+                <p>Products not found!</p>
                 @endif
               </tbody>
             </table>
@@ -94,21 +112,5 @@
         </div>
       </div>
     </div>
-</div>
-
-<div class="modal fade c-fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete this Product?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Delete</button>
-      </div>
-    </div>
-  </div>
 </div>
 @endsection

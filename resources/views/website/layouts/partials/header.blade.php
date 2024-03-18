@@ -234,16 +234,24 @@
     <div class="hsidebar-content">
         <div class="log_reg_form sidebar_area">
             <div class="login_form">
-                <form action="my-account.php">
-                    <div class="mb-2 mr-sm-2"><label class="form-label">Username or email address</label><input
-                            type="text" class="form-control" placeholder="Ali Tufan"></div>
-                    <div class="form-group mb5"><label class="form-label">Password</label><input type="password"
-                            class="form-control" placeholder="Password"></div>
-                    <div class="custom-control custom-checkbox"><input type="checkbox"
-                            class="custom-control-input" id="exampleCheck3"><label class="custom-control-label"
-                            for="exampleCheck3">Remember me</label><a class="btn-fpswd float-end" href="#">Lost
-                            your password?</a></div><button type="submit"
-                        class="btn btn-log btn-thm mt20">Login</button>
+                <form action="{{ route('user.login') }}" method="POST">
+                    @csrf
+                    <div class="mb-2 mr-sm-2">
+                        <label class="form-label">Email Address</label>
+                        <input type="text" required class="form-control" name="email" placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group mb5">
+                        <label class="form-label">Password</label>
+                        <input type="password" required name="password" class="form-control" placeholder="Enter your password">
+                    </div>
+                    <!-- <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="exampleCheck3">
+                        <label class="custom-control-label" for="exampleCheck3">Remember me</label>
+
+                        <a class="btn-fpswd float-end" href="#">Lost your password?</a>
+                    </div> -->
+
+                    <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
                     <p class="text-center mb25 mt10">Don't have an account?<a class="signup-filter-btn"href="#">Create account</a></p>
                     <div class="hr_content">
                         <hr><span class="hr_top_text">or</span>
@@ -330,18 +338,22 @@
     <div class="hsidebar-content">
         <div class="log_reg_form sidebar_area">
             <div class="sign_up_form">
-                <form action="my-account.php">
-                    <div class="form-group"><label class="form-label">Your Name</label><input type="text"
-                            class="form-control" placeholder="Ali Tufan"></div>
-                    <div class="form-group"><label class="form-label">Username</label><input type="text"
-                            class="form-control" placeholder="alitfn"></div>
-                    <div class="form-group"><label class="form-label">Your Email</label><input type="email"
-                            class="form-control" placeholder="creativelayers088@gmail.com"></div>
-                    <div class="form-group mb20"><label class="form-label">Password</label><input
-                            type="password" class="form-control" placeholder="******************"></div><button
-                        type="submit" class="btn btn-signup btn-thm">Create Account</button>
-                    <p class="text-center mb25 mt10">Already have an account?<a href="javascript:void(0)">Sign
-                            in</a></p>
+                <form action="{{ route('user.register') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" required class="form-control" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" required name="email" placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group mb20">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" required class="form-control" placeholder="******************">
+                    </div>
+                    <button type="submit" class="btn btn-signup btn-thm">Create Account</button>
+                    <p class="text-center mb25 mt10">Already have an account?<a href="javascript:void(0)">Sign in</a></p>
                     <div class="hr_content">
                         <hr><span class="hr_top_text">or</span>
                     </div>
@@ -356,40 +368,6 @@
         </div>
     </div>
 </div>
-<!-- <div class="partner-hidden-sbar">
-    <div class="hsidebar-header">
-        <div class="sidebar-close-icon"><span class="fa fa-close"></span></div>
-        <h4 class="title">Become A Partner</h4>
-    </div>
-    <div class="hsidebar-content">
-        <div class="log_reg_form sidebar_area">
-            <div class="sign_up_form">
-                <form action="my-account.php">
-                    <div class="form-group"><label class="form-label">Your Name</label><input type="text"
-                            class="form-control" placeholder="Ali Tufan"></div>
-                    <div class="form-group"><label class="form-label">Username</label><input type="text"
-                            class="form-control" placeholder="alitfn"></div>
-                    <div class="form-group"><label class="form-label">Your Email</label><input type="email"
-                            class="form-control" placeholder="creativelayers088@gmail.com"></div>
-                    <div class="form-group mb20"><label class="form-label">Password</label><input
-                            type="password" class="form-control" placeholder="******************"></div>
-                    <div class="form-group mb20"><label class="form-label">URL</label><input type="url"
-                            class="form-control" placeholder="https://"></div>
-                    <button type="submit" class="btn btn-signup btn-thm">Submit</button>
-                    <div class="hr_content">
-                        <hr><span class="hr_top_text">or</span>
-                    </div>
-                    <ul class="login_with_social text-center mt30 mb0">
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-google"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-apple"></i></a></li>
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
 <div id="page" class="stylehome1">
     <div class="mobile-menu">
         <div class="header stylehome1 home4_style">

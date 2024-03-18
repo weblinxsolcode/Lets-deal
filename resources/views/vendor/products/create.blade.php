@@ -46,13 +46,13 @@
                 <div class="col-md-6">
                   <div class="form-group mb-4">
                     <label class="form-label">Price</label>
-                    <input class="form-control" type="number" min="1" pattern="[0-9]+([\.,][0-9]+)?" value="{{ old('price') }}" name="price" placeholder="Price" required>
+                    <input class="form-control" type="number" min="1" value="{{ old('price') }}" name="price" placeholder="Price" required>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group mb-4">
                     <label class="form-label">Discount Price</label>
-                    <input class="form-control" type="number" min="1" pattern="[0-9]+([\.,][0-9]+)?" value="{{ old('discount_price') }}" placeholder="Discount Price" name="discount_price" required>
+                    <input class="form-control" type="number" min="1" value="{{ old('discount_price') }}" placeholder="Discount Price" name="discount_price" required>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -64,7 +64,7 @@
                 <div class="col-md-6">
                   <div class="form-group mb-4">
                     <label class="form-label">Additional Images (Up to 3)</label>
-                    <input class="form-control" style="height: max-content;" type="file" multiple name="additional_images[]">
+                    <input class="form-control" style="height: max-content;" type="file" required multiple name="additional_images[]">
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group d-grid d-sm-flex mb0">
-                    <button type="submit" class="style2 btn btn-thm me-3 mb15-520">Create Product</button>
+                    <button type="submit" class="style2 btn btn-thm me-3 mb15-520">Create</button>
                     <button type="button" class="style2 btn btn-white">Cancel</button>
                   </div>
                 </div>

@@ -30,6 +30,12 @@ return new class extends Migration
             $table->text('website_url');
             $table->string('password')->nullable();
             $table->integer('status')->default(0);
+
+            $table->text('profile_image');
+            $table->text('facebook_link');
+            $table->text('twitter_link');
+            $table->text('instagram_link');
+            $table->text('linkedin_link');
             $table->timestamps();
         });
     }
