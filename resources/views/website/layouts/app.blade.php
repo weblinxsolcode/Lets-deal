@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/slider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <title>Let's Deal</title>
+    <title>Happicard | {{ @$title ?? '' }}</title>
     <link href="{{ asset('assets/images/favicon.ico') }}" sizes="128x128" rel="shortcut icon" type="image/x-icon">
     <link href="{{ asset('assets/images/favicon.ico') }}" sizes="128x128" rel="shortcut icon">
     <link href="{{ asset('assets/images/apple-touch-icon-60x60.png') }}" sizes="60x60" rel="apple-touch-icon">
@@ -81,6 +81,8 @@ $mainArrays = [
 <script src="{{ asset('assets/js/scrollbalance.js') }}"></script>
 <!-- <!- Custom script for all pages ->  -->
 <script src="{{ asset('assets/js/script.js') }}"></script>
+
+@yield('js')
 
 @include('toastr')
 

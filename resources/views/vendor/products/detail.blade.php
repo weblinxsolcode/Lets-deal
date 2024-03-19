@@ -47,7 +47,7 @@
 				                <a class="product_popup popup-img" href="images/shop/ss3.png"><span
 				                    class="flaticon-full-screen"></span></a>
 				                <div class="zoomimg_wrapper m-auto hizoom hi3">
-				                  <img style="max-width: max-content;" class="zoom-img" id="zoom_03" src="{{ asset('images/' . $product->main_image) }}" 
+				                  <img class="zoom-img" id="zoom_03" src="{{ asset('images/' . $product->main_image) }}" 
 				                  	onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'"
 				                    data-zoom-image="{{ asset('images/' . $product->main_image) }}" width="510" alt="Product Main Image" />
 				                </div>
@@ -62,7 +62,7 @@
 						                <a class="product_popup popup-img" href="images/shop/ss1.png"><span
 						                    class="flaticon-full-screen"></span></a>
 						                <div class="zoomimg_wrapper m-auto">
-						                  <img style="max-width: max-content;" class="zoom-img" id="zoom_03" src="{{ asset('images/' . $product_image->image) }}" 
+						                  <img class="zoom-img" id="zoom_03" src="{{ asset('images/' . $product_image->image) }}" 
 						                  	onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'"
 						                    data-zoom-image="{{ asset('images/' . $product->main_image) }}" width="510" alt="Product Image" />
 						                </div>
@@ -86,11 +86,11 @@
 							<div class="col-lg-2">
 								<div class="C-price mb25 mt20">NOK {{ $product->price }} <small><del class="mr10">NOK {{ $product->discount_price }}</del></small></div>
 							</div>
-							<div class="col-lg-4">
+							<!-- <div class="col-lg-4">
 								<div class="d-grid mb-3">
 									<a href="javascript:void(0)" class="btn btn-white bdr_thm ss_cart_btn">Buy Now</a>
 								</div>
-							</div>
+							</div> -->
 			                <div class="col-lg-4">
 			                    <div class="d-grid mb-3">
 			                      <div class="share-options--1lVOA">

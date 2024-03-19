@@ -16,11 +16,23 @@ use App\Http\Middleware\UserAuth;
 Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
 
 Route::group(['prefix' => '/', 'as' => 'website.'], function () {
+	// Vendor application
 	Route::get('/become-partner', [WebsiteController::class, 'becomePartnerCreate'])->name('become-partner.create');
 	Route::post('/become-partner/store', [WebsiteController::class, 'becomePartnerStore'])->name('become-partner.store');
 
+	// Products
 	Route::get('/products', [WebsiteController::class, 'productIndex'])->name('product.index');
 	Route::get('/product-details/{id}', [WebsiteController::class, 'productDetail'])->name('product.detail');
+
+	// Cart
+	Route::get('cart', [WebsiteController::class, 'cartIndex'])->name('cart.index');
+	Route::get('cart-add-product/{id}', [WebsiteController::class, 'cartAddProduct'])->name('cart.add-product');
+	Route::post('cart-update-quantity', [WebsiteController::class, 'cartUpdateQuantity'])->name('cart.update-quantity');
+	Route::get('cart-product-remove/{id}', [WebsiteController::class, 'removeCartProduct'])->name('remove-cart-product');
+
+	// Checkout
+	Route::get('checkout', [WebsiteController::class, 'checkoutIndex'])->name('checkout.index');
+	Route::post('checkout/store', [WebsiteController::class, 'checkoutStore'])->name('checkout.store');
 });
 
 // User Dashboard

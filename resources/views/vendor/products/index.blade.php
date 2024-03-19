@@ -61,7 +61,7 @@
                       <td>${{ $product->discount_price }}</td>
                       <td>
                         @if ($product->status == '1')
-                        <span class="badge badge-success">Approved</span>
+                        <span class="badge badge-success">Active</span>
                         @else
                         <span class="badge badge-danger">In Active</span>
                         @endif

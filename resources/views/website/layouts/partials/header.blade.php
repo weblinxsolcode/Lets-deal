@@ -131,18 +131,13 @@
                                         </div>
                                     </div>
                                 </a></li> -->
-                            <li class="list-inline-item"><a
-                                    class="header_top_iconbox home2_style at_home4 text-start signin-filter-btn"
-                                    href="javascript:void(0)">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span class="fa fa-user"></span></div>
-                                        <div class="details">
-                                            <p class="subtitle">Sign In</p>
-                                            <h5 class="title">Account</h5>
-                                        </div>
-                                    </div>
-                                </a></li>
-                            <li class="list-inline-item"><a
+
+                            
+
+                            
+
+                            {{-- <!-- <li class="list-inline-item">
+                                <a
                                     class="header_top_iconbox home2_style at_home4 text-start cart-filter-btn"
                                     href="#">
                                     <div class="d-block d-md-flex">
@@ -155,7 +150,52 @@
                                         </div>
                                     </div>
                                 </a>
+                            </li> --> --}}
+
+                            <li class="list-inline-item">
+                                <a
+                                    class="header_top_iconbox home2_style at_home4 text-start "
+                                    href="{{ route('website.cart.index') }}">
+                                    <div class="d-block d-md-flex">
+                                        <div class="icon"><span><img
+                                                    src="{{ asset('assets/images/icons/flaticon-shopping-cart.svg') }}"
+                                                    alt=""></span><span class="badge">2</span></div>
+                                        <div class="details">
+                                            <p class="subtitle">$200.99</p>
+                                            <h5 class="title">Total</h5>
+                                        </div>
+                                    </div>
+                                </a>
                             </li>
+
+                            @if (session('user_id'))
+                            <li class="list-inline-item">
+                                <a class="header_top_iconbox home2_style at_home4 text-start" 
+                                href="{{ route('website.user-dashboard.index') }}">
+                                    <div class="d-block d-md-flex">
+                                        <div class="icon"><span class="fa fa-user"></span></div>
+                                        <div class="details">
+                                            <p class="subtitle">Hammadullah</p>
+                                            <h5 class="title">Account</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            @else
+                            <li class="list-inline-item"><a
+                                    class="header_top_iconbox home2_style at_home4 text-start signin-filter-btn"
+                                    href="javascript:void(0)">
+                                    <div class="d-block d-md-flex">
+                                        <div class="icon"><span class="fa fa-user"></span></div>
+                                        <div class="details">
+                                            <p class="subtitle">Sign In</p>
+                                            <h5 class="title">Account</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>
@@ -220,7 +260,7 @@
                 </li>
             </ul>
             <p class="text-center text-dark  mb-0" style="position:absolute;right:0;color:#000;font-size:medium;">
-                <a href="{{ route('website.become-partner.create') }}" class="mx-1" href="#">Becoma A Partner</a>
+                <a href="{{ route('website.become-partner.create') }}" class="mx-1" href="#">Becoma A Partner?</a>
             </p>
         </div>
     </nav>
@@ -324,7 +364,7 @@
                 <div class="uilayout_range home1_style">
                     <div class="sidebar_range_slider mb30 mt25"><input class="range-example-km" value="80"
                             type="text"></div>
-                </div><div class="  d-flex flex-wrap justify-content-center gap-2"><a href="cart.php" class="cart_btns btn btn-white mx-2">View Cart</a><a href="checkout.php"
+                </div><div class="d-flex flex-wrap justify-content-center gap-2"><a href="{{ route('website.cart.index') }}" class="cart_btns btn btn-white mx-2">View Cart</a><a href="{{ route('website.checkout.index') }}"
                     class="checkout_btns btn btn-thm">Checkout</a>
             </div></div>
         </div>

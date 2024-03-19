@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 
 class WebsiteController extends Controller
@@ -124,11 +126,140 @@ class WebsiteController extends Controller
     	return view('website.products.detail', compact('product'));
     }
 
-    // My Account
+    // User Dashboard
     public function userDashboard()
     {
         $title = 'User Dashboard';
 
         return view('website.user-dashboard');
+    }
+
+    // Cart
+    public function cartIndex()
+    {
+        $title = 'Cart';
+
+        return view('website.cart');
+    }
+
+    public function cartAddProduct($id)
+    {
+        $product = Product::find($id);
+
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "title" => $product->title,
+                "quantity" => 1,
+                "price" => $product->discount_price,
+                "image" => $product->main_image
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return response(['status' => 1, 'message' => 'Product has been added in cart.']);
+    }
+
+    public function cartUpdateQuantity(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $newQuantity = $request->input('quantity');
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] = $newQuantity;
+            session()->put('cart', $cart);
+
+            return response()->json(['status' => 1]);
+        } else {
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function removeCartProduct(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
+
+        return redirect()->back()->with('success', 'Product has been removed from cart.');
+    }
+
+    // Checkout
+    public function checkoutIndex()
+    {
+        $title = 'Checkout';
+
+        if (empty(session('cart'))) {
+            return redirect()->route('website.cart.index')->with('error', 'Your cart is empty!');
+        }
+
+        return view('website.checkout', compact('title'));
+    }
+
+    public function checkoutStore(Request $request)
+    {
+        if (empty(session('user_id'))) {
+            return redirect()->route('website.checkout.index')->with('error', 'Please login to continue.');
+        }
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'street_address' => 'required',
+            'zip' => 'required',
+            'order_notes' => 'required',
+        ]);
+
+        $data = ([
+            'user_id' => session('user_id'),
+            'order_no' => rand(10000000, 99999999),
+            'total_price' => $request->total_price,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'street_address' => $request->street_address,
+            'zip' => $request->zip,
+            'order_notes' => $request->order_notes,
+        ]);
+
+        $order = Order::create($data);
+
+        if (session('cart')) {
+            foreach (session('cart') as $key => $product) {
+                $product = Product::find($key);
+
+                OrderDetail::create([
+                    'vendor_id' => $product->vendor_id,
+                    'order_id' => $order->id,
+                    'product_name' => $product->title,
+                    'product_price' => $product->price,
+                    'product_quantity' => $product->quantity,
+                ]);
+            }
+        }
+
+        session()->forget('cart');
+
+        return redirect()->route('website.user-dashboard.index')->with('success', 'Order has been placed successfully.');
     }
 }
