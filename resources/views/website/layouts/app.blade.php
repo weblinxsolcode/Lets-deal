@@ -82,6 +82,78 @@ $mainArrays = [
 <!-- <!- Custom script for all pages ->  -->
 <script src="{{ asset('assets/js/script.js') }}"></script>
 
+<script type="text/javascript">
+    $('.login-from').submit(function(e){
+
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('user.login') }}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                console.log(response);
+                if (response.status === 0) {
+                    if (response.errors !== undefined && response.errors !== null && Object.keys(response.errors).length > 0) {
+                        $.each(response.errors, function(field, messages) {
+                            $.each(messages, function(index, message) {
+                                toastr.error(message);
+                            });
+                        });
+                    } else if (response.error !== undefined && response.error !== null && response.error !== '') {
+                        toastr.error(response.error);
+                    }
+                } else if (response.status == 1) {
+                    toastr.success('Login successful.')
+                    $('.hiddenbar-body-ovelay').hide();
+                    $('.signin-hidden-sbar').hide();
+                    $('.signup-hidden-sbar').hide();
+                } else {
+                    toastr.error('Oops! Some thing went wrong. PLease try again later.')
+                }
+            }
+        });
+    });
+
+    $('.register-form').submit(function(e){
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('user.register') }}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                if (response.status === 0) {
+                    if (response.errors !== undefined && response.errors !== null && Object.keys(response.errors).length > 0) {
+                        $.each(response.errors, function(field, messages) {
+                            $.each(messages, function(index, message) {
+                                toastr.error(message);
+                            });
+                        });
+                    } else if (response.error !== undefined && response.error !== null && response.error !== '') {
+                        toastr.error(response.error);
+                    }
+                } else if (response.status == 1) {
+                    toastr.success('Account has been created successfully.')
+                    $('.hiddenbar-body-ovelay').hide();
+                    $('.signin-hidden-sbar').hide();
+                    $('.signup-hidden-sbar').hide();
+                } else {
+                    toastr.error('Oops! Some thing went wrong. PLease try again later.')
+                }
+            }
+        });
+    });
+</script>
+
 @yield('js')
 
 @include('toastr')

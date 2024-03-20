@@ -119,81 +119,75 @@
                                             <h5 class="title">4-956-232-0955</h5>
                                         </div>
                                     </div>
-                                </a></li>
-                            <!-- <li class="list-inline-item"><a
-                                    class="header_top_iconbox home2_style at_home4 text-start"
-                                    href="javascript:void(0)">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span class="fa fa-heart"></span></div>
-                                        <div class="details">
-                                            <p class="subtitle">Wishlist</p>
-                                            <h5 class="title">My Items</h5>
-                                        </div>
-                                    </div>
-                                </a></li> -->
-
-                            
-
-                            
-
-                            {{-- <!-- <li class="list-inline-item">
-                                <a
-                                    class="header_top_iconbox home2_style at_home4 text-start cart-filter-btn"
-                                    href="#">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span><img
-                                                    src="{{ asset('assets/images/icons/flaticon-shopping-cart.svg') }}"
-                                                    alt=""></span><span class="badge">2</span></div>
-                                        <div class="details">
-                                            <p class="subtitle">$200.99</p>
-                                            <h5 class="title">Total</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> --> --}}
-
-                            <li class="list-inline-item">
-                                <a
-                                    class="header_top_iconbox home2_style at_home4 text-start "
-                                    href="{{ route('website.cart.index') }}">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span><img
-                                                    src="{{ asset('assets/images/icons/flaticon-shopping-cart.svg') }}"
-                                                    alt=""></span><span class="badge">2</span></div>
-                                        <div class="details">
-                                            <p class="subtitle">$200.99</p>
-                                            <h5 class="title">Total</h5>
-                                        </div>
-                                    </div>
                                 </a>
                             </li>
+
+                            @if (session('cart'))
+                                @php
+                                    $total_price = array_reduce(session('cart'), function ($carry, $product) {
+                                        return $carry + ($product['price'] * $product['quantity']);
+                                    }, 0);
+                                @endphp
+                                <li class="list-inline-item">
+                                    <a class="header_top_iconbox home2_style at_home4 text-start" href="{{ route('website.cart.index') }}">
+                                        <div class="d-block d-md-flex">
+                                            <div class="icon">
+                                                <span>
+                                                    <img src="{{ asset('assets/images/icons/flaticon-shopping-cart.svg') }}" alt="">
+                                                </span>
+                                                <span class="badge cart_num_items">{{ count(session('cart')) ?? '' }}</span></div>
+                                            <div class="details">
+                                                <p class="subtitle">$<span class="cart_total_price">{{ $total_price }}</span>.00</p>
+                                                <h5 class="title">Total</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="list-inline-item">
+                                    <a class="header_top_iconbox home2_style at_home4 text-start" href="{{ route('website.cart.index') }}">
+                                        <div class="d-block d-md-flex">
+                                            <div class="icon">
+                                                <span>
+                                                    <img src="{{ asset('assets/images/icons/flaticon-shopping-cart.svg') }}" alt=""></span><span class="badge">0</span></div>
+                                            <div class="details">
+                                                <p class="subtitle">00.00</p>
+                                                <h5 class="title">Total</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
 
                             @if (session('user_id'))
-                            <li class="list-inline-item">
-                                <a class="header_top_iconbox home2_style at_home4 text-start" 
-                                href="{{ route('website.user-dashboard.index') }}">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span class="fa fa-user"></span></div>
-                                        <div class="details">
-                                            <p class="subtitle">Hammadullah</p>
-                                            <h5 class="title">Account</h5>
+                                @php
+                                    $user = App\Models\User::find(session('user_id'));
+                                @endphp 
+                                <li class="list-inline-item">
+                                    <a class="header_top_iconbox home2_style at_home4 text-start" 
+                                    href="{{ route('website.user-dashboard.index') }}">
+                                        <div class="d-block d-md-flex">
+                                            <div class="icon"><span class="fa fa-user"></span></div>
+                                            <div class="details">
+                                                <p class="subtitle">Hello, {{ ucfirst($user->name ?? 'user') }}</p>
+                                                <h5 class="title">Account</h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
                             @else
-                            <li class="list-inline-item"><a
-                                    class="header_top_iconbox home2_style at_home4 text-start signin-filter-btn"
-                                    href="javascript:void(0)">
-                                    <div class="d-block d-md-flex">
-                                        <div class="icon"><span class="fa fa-user"></span></div>
-                                        <div class="details">
-                                            <p class="subtitle">Sign In</p>
-                                            <h5 class="title">Account</h5>
+                                <li class="list-inline-item"><a
+                                        class="header_top_iconbox home2_style at_home4 text-start signin-filter-btn"
+                                        href="javascript:void(0)">
+                                        <div class="d-block d-md-flex">
+                                            <div class="icon"><span class="fa fa-user"></span></div>
+                                            <div class="details">
+                                                <p class="subtitle">Sign In</p>
+                                                <h5 class="title">Account</h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
                             @endif
 
                         </ul>
@@ -266,6 +260,8 @@
     </nav>
 </header>
 <div class="hiddenbar-body-ovelay"></div>
+
+<!-- Login -->
 <div class="signin-hidden-sbar">
     <div class="hsidebar-header">
         <div class="sidebar-close-icon"><span class="fa fa-close"></span></div>
@@ -274,7 +270,7 @@
     <div class="hsidebar-content">
         <div class="log_reg_form sidebar_area">
             <div class="login_form">
-                <form action="{{ route('user.login') }}" method="POST">
+                <form class="login-from" action="{{ route('user.login') }}" method="POST">
                     @csrf
                     <div class="mb-2 mr-sm-2">
                         <label class="form-label">Email Address</label>
@@ -284,12 +280,12 @@
                         <label class="form-label">Password</label>
                         <input type="password" required name="password" class="form-control" placeholder="Enter your password">
                     </div>
-                    <!-- <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="exampleCheck3">
                         <label class="custom-control-label" for="exampleCheck3">Remember me</label>
 
                         <a class="btn-fpswd float-end" href="#">Lost your password?</a>
-                    </div> -->
+                    </div>
 
                     <button type="submit" class="btn btn-log btn-thm mt20">Login</button>
                     <p class="text-center mb25 mt10">Don't have an account?<a class="signup-filter-btn"href="#">Create account</a></p>
@@ -307,7 +303,8 @@
         </div>
     </div>
 </div>
-<div class="cart-hidden-sbar">
+
+<!-- <div class="cart-hidden-sbar">
     <div class="hsidebar-header">
         <div class="sidebar-close-icon"><span class="fa fa-close"></span></div>
         <h4 class="title">Your Cart</h4>
@@ -369,7 +366,9 @@
             </div></div>
         </div>
     </div>
-</div>
+</div> -->
+
+<!-- Create Account -->
 <div class="signup-hidden-sbar">
     <div class="hsidebar-header">
         <div class="sidebar-close-icon"><span class="fa fa-close"></span></div>
@@ -378,7 +377,7 @@
     <div class="hsidebar-content">
         <div class="log_reg_form sidebar_area">
             <div class="sign_up_form">
-                <form action="{{ route('user.register') }}" method="POST">
+                <form class="register-form" action="{{ route('user.register') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label class="form-label">Name</label>
@@ -408,6 +407,7 @@
         </div>
     </div>
 </div>
+<!-- Cart -->
 <div id="page" class="stylehome1">
     <div class="mobile-menu">
         <div class="header stylehome1 home4_style">
@@ -513,6 +513,5 @@
           <li ><a class="fw-bold" href="products.php">Product</a></li>
           <li ><a class="fw-bold" href="become-a-partner.php">Become a partner</a></li>
         </ul>
-    
     </nav>
 </div>

@@ -13,7 +13,8 @@ use App\Http\Middleware\UserAuth;
 // });
 
 // WEBSITE
-Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
+// Route::get('/', [WebsiteController::class, 'index'])->name('website.index');
+Route::get('/', [WebsiteController::class, 'productIndex'])->name('website.index');
 
 Route::group(['prefix' => '/', 'as' => 'website.'], function () {
 	// Vendor application
@@ -41,7 +42,9 @@ Route::post('login', [WebsiteController::class, 'login'])->name('user.login');
 Route::get('logout', [WebsiteController::class, 'logout'])->name('user.logout');
 
 Route::group(['prefix' => '/', 'as' => 'website.', 'middleware' => UserAuth::class], function () {
-	Route::get('user-dashboard', [WebsiteController::class, 'userDashboard'])->name('user-dashboard.index');
+	Route::get('dashboard', [WebsiteController::class, 'userDashboard'])->name('user-dashboard.index');
+	Route::get('orders', [WebsiteController::class, 'userOrderIndex'])->name('user-order.index');
+	Route::get('order/details/{id}', [WebsiteController::class, 'userOrderDetail'])->name('user-order.detail');
 });
 
 // VENDOR AUTH

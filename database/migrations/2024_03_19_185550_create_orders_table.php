@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('order_no');
             $table->text('first_name');
             $table->text('last_name');
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->integer('status')->default(0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->timestamps();
         });
     }

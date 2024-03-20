@@ -6,8 +6,8 @@
   <form id="signUpForm" class="checkout_form" action="{{ route('website.checkout.store') }}" method="POST">
     @csrf
     <div class="form-header d-flex mb-4"> 
-      <span class="stepIndicator">Billing Details</span>
-      {{-- <!-- <span class="stepIndicator">Shipping Detail</span> --> --}}
+      <!-- <span class="stepIndicator">Billing Details</span> -->
+      <span class="stepIndicator">Shipping Detail</span>
       <span class="stepIndicator">Order Details</span>
     </div>
 
@@ -137,14 +137,12 @@
                 @php
                   $total_price += $product['price']*$product['quantity'];
                 @endphp
-
                   <li>
                     <p class="product_name_qnt">{{ $product['title'] }} x {{ $product['quantity'] }} </p>
                     <span class="price">${{ $product['price']*$product['quantity'] }}</span>
                   </li>
                 @endforeach
               @endif
-              <hr>
               <!-- <li class="subtitle">
                 <p>Sub Total <span class="float-end totals">${{ $total_price ?? '0' }}</span></p>
               </li> -->
@@ -153,6 +151,7 @@
               </li> -->
               <li class="subtitle">
                 <p>Total <span class="float-end totals">${{ $total_price ?? '0' }}</span></p>
+                <input type="hidden" name="total_price" value="{{ $total_price }}">
                 <input type="hidden" name="total_price" value="{{ $total_price }}">
               </li>
             </ul>

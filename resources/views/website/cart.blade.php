@@ -166,3 +166,11 @@
   </div>
 </section>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+  @if (session('error') && session('error') === 'Please sign-in to continue.')
+    $('body').addClass('signin-hidden-sidebar-content');
+  @endif
+</script>
+@endsection

@@ -10,6 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
+        'vendor_id',
         'user_id',
         'order_no',
         'first_name',
@@ -25,4 +26,8 @@ class Order extends Model
         'order_notes',
         'status',
     ];
+
+    public function orderDetail() {
+        return $this->hasMany(OrderDetail::class, 'order_id');
+    }
 }

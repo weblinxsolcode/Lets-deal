@@ -53,7 +53,7 @@
             <div class="col-lg-12 col-sm-6 col-lg-4 col-xl-3 p-0">
               <div class="shop_item bdr1 m--1">
                 <div class="thumb pb30">
-                    <img class="w100" src="{{ asset('images/' . $product->main_image) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Product Main Image">
+                    <img style="max-width: 150px" src="{{ asset('images/' . $product->main_image) }}" onerror="this.src='{{ asset('assets/images/image-placeholder.png') }}'" alt="Product Main Image">
                 </div>
                 <div class="details">
                   <!-- <div class="sub_title">SAMSUNG</div> -->
